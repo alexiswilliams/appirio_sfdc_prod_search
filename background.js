@@ -4,16 +4,17 @@
 
 'use strict';
 chrome.runtime.onInstalled.addListener(function() {
-  chrome.contextMenus.create({
-    id: 'AppirioSDFCSearch',
-    title: "Search Appirio SFDC prod org for '%s'",
-    type: 'normal',
-    contexts: ['selection'],
-  });
+  for (let key of Object.keys(kSearchEngineIDValues)) {
+    chrome.contextMenus.create({
+      id: key,
+      title: kSearchEngineIDValues[key] + " for %s'",
+      type: 'normal',
+      contexts: ['selection'],
+    });
+  }
 });
 
 chrome.contextMenus.onClicked.addListener(function(item, tab) {
-  let url =
-    'https://appirio.my.salesforce.com/_ui/search/ui/UnifiedSearchResults?searchType=2&str='+ item.selectionText;
+  let url = kSearchEngineURLValues[item.menuItemId] + item.selectionText;
   chrome.tabs.create({url: url, index: tab.index + 1});
 });

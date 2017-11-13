@@ -1,11 +1,11 @@
 {
   "name": "Appirio SFDC prod Search",
   "description": "Use the context menu to search a highlighted text in Appirio's SFDC prod org",
-  "version": "1.0",
+  "version": "1.0.1",
   "manifest_version": 2,
   "permissions": ["contextMenus", "storage"],
   "background": {
-    "scripts": [ "background.js"],
+    "scripts": [ "searches.js", "background.js"],
     "persistent": false
   },
   "icons": {

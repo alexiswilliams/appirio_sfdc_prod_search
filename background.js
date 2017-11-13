@@ -3,17 +3,20 @@
 // found in the LICENSE file.
 
 'use strict';
+// Add a listener to create the initial context menu items,
+// context menu items only need to be created at runtime.onInstalled
 chrome.runtime.onInstalled.addListener(function() {
-  chrome.contextMenus.create({
-    id: 'AppirioSDFCSearch',
-    title: "Search Appirio SFDC prod org for '%s'",
-    type: 'normal',
-    contexts: ['selection'],
-  });
+  for (let key of Object.keys(kURLSearchValues)) {
+    chrome.contextMenus.create({
+      id: key,
+      title: kSearchValues[key] + " for '%s'",
+      type: 'normal',
+      contexts: ['selection'],
+    });
+  }
 });
 
 chrome.contextMenus.onClicked.addListener(function(item, tab) {
-  let url =
-    'https://appirio.my.salesforce.com/_ui/search/ui/UnifiedSearchResults?searchType=2&str='+ item.selectionText;
+  let url = kURLSearchValues[item.menuItemId] + item.selectionText;
   chrome.tabs.create({url: url, index: tab.index + 1});
 });
